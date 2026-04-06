@@ -1,3 +1,9 @@
+name: Deploy Flask App
+
+on:
+  push:
+    branches: [ "main" ]
+
 jobs:
   deploy:
     uses: kondeti-chaithanya/ecs-reusable-workflow/.github/workflows/ecs-deploy.yml@main

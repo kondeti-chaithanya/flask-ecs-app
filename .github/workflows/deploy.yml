@@ -12,7 +12,7 @@ jobs:
   deploy:
     uses: kondeti-chaithanya/ecs-reusable-workflow/.github/workflows/ecs-deploy.yml@main
     with:
-      service: flask-service
+      service: flask-cluster-task-service-qccqm59g
       cluster: flask-cluster
     secrets:
       AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}

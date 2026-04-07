@@ -3,7 +3,9 @@ name: Deploy to ECS
 on:
   push:
     branches:
-      - dev   # auto deploy dev
+      - dev
+      - stage
+      - prod   
 
   pull_request:
     branches:

@@ -3,17 +3,22 @@ name: Deploy to ECS
 on:
   push:
     branches:
-      - dev
-      - stage
-      - main
+      - dev   # auto deploy dev
 
-# ✅ ADD THIS BLOCK
+  pull_request:
+    branches:
+      - stage   # when PR merged to stage
+    types: [closed]
+
+  workflow_dispatch:   # manual trigger for prod
+
 permissions:
   id-token: write
   contents: read
 
 jobs:
 
+  #  DEV DEPLOY (auto on push)
   deploy-dev:
     if: github.ref == 'refs/heads/dev'
     uses: kondeti-chaithanya/ecs-reusable-workflow/.github/workflows/ecs-deploy.yml@main
@@ -25,8 +30,9 @@ jobs:
       AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
       AWS_REGION: ${{ secrets.AWS_REGION }}
 
+  #  STAGE DEPLOY (only when PR merged)
   deploy-stage:
-    if: github.ref == 'refs/heads/stage'
+    if: github.event_name == 'pull_request' && github.event.pull_request.merged == true && github.base_ref == 'stage'
     uses: kondeti-chaithanya/ecs-reusable-workflow/.github/workflows/ecs-deploy.yml@main
     with:
       service: flask-cluster-task-service-qccqm59g
@@ -36,8 +42,9 @@ jobs:
       AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
       AWS_REGION: ${{ secrets.AWS_REGION }}
 
+  #  PROD DEPLOY (manual only)
   deploy-prod:
-    if: github.ref == 'refs/heads/main'
+    if: github.event_name == 'workflow_dispatch'
     uses: kondeti-chaithanya/ecs-reusable-workflow/.github/workflows/ecs-deploy.yml@main
     with:
       service: flask-cluster-task-service-qccqm59g

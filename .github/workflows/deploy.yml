@@ -1,19 +1,43 @@
-name: Deploy Flask App
+name: Deploy to ECS
 
 on:
   push:
-    branches: [ "main" ]
-
-permissions:
-  id-token: write
-  contents: read
+    branches:
+      - dev
+      - stage
+      - main
 
 jobs:
-  deploy:
-    uses: kondeti-chaithanya/ecs-reusable-workflow/.github/workflows/ecs-deploy.yml@main
+
+  deploy-dev:
+    if: github.ref == 'refs/heads/dev'
+    uses: ./.github/workflows/reusable.yml
     with:
-      service: flask-cluster-task-service-qccqm59g
-      cluster: flask-cluster
+      service: flask-dev-service
+      cluster: flask-dev-cluster
     secrets:
       AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
       AWS_REGION: ${{ secrets.AWS_REGION }}
+    environment: dev
+
+  deploy-stage:
+    if: github.ref == 'refs/heads/stage'
+    uses: ./.github/workflows/reusable.yml
+    with:
+      service: flask-stage-service
+      cluster: flask-stage-cluster
+    secrets:
+      AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+    environment: stage
+
+  deploy-prod:
+    if: github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/reusable.yml
+    with:
+      service: flask-prod-service
+      cluster: flask-prod-cluster
+    secrets:
+      AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+    environment: prod

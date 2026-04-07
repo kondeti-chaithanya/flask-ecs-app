@@ -11,7 +11,7 @@ jobs:
 
   deploy-dev:
     if: github.ref == 'refs/heads/dev'
-    uses: ./.github/workflows/reusable.yml
+    uses: ./.github/workflows/ecs-deploy.yml
     with:
       service: flask-dev-service
       cluster: flask-dev-cluster

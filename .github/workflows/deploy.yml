@@ -7,17 +7,18 @@ on:
       - stage
       - main
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   deploy:
-    runs-on: ubuntu-latest
-
-    # THIS LINE LINKS ENVIRONMENT
-    environment: ${{ github.ref_name }}
-
-    uses: ./.github/workflows/ecs-deploy.yml
+    uses: kondeti-chaithanya/ecs-reusable-workflow/.github/workflows/ecs-deploy.yml@main
 
     with:
       service: flask-cluster-task-service-qccqm59g
       cluster: flask-cluster
+      environment: ${{ github.ref_name }}
 
-    secrets: inherit
+    secrets:
+      inherit

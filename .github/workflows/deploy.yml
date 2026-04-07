@@ -18,7 +18,7 @@ jobs:
     if: github.ref == 'refs/heads/dev'
     uses: kondeti-chaithanya/ecs-reusable-workflow/.github/workflows/ecs-deploy.yml@main
     with:
-      service: flask-dev-service
+      service: flask-cluster-task-service-qccqm59g
       cluster: flask-dev-cluster
       environment: dev
     secrets:
@@ -29,7 +29,7 @@ jobs:
     if: github.ref == 'refs/heads/stage'
     uses: kondeti-chaithanya/ecs-reusable-workflow/.github/workflows/ecs-deploy.yml@main
     with:
-      service: flask-stage-service
+      service: flask-cluster-task-service-qccqm59g
       cluster: flask-stage-cluster
       environment: stage
     secrets:
@@ -40,7 +40,7 @@ jobs:
     if: github.ref == 'refs/heads/main'
     uses: kondeti-chaithanya/ecs-reusable-workflow/.github/workflows/ecs-deploy.yml@main
     with:
-      service: flask-prod-service
+      service: flask-cluster-task-service-qccqm59g
       cluster: flask-prod-cluster
       environment: prod
     secrets:

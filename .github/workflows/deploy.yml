@@ -11,33 +11,33 @@ jobs:
 
   deploy-dev:
     if: github.ref == 'refs/heads/dev'
-    uses: ./.github/workflows/ecs-deploy.yml
+    uses: kondeti-chaithanya/ecs-reusable-workflow/.github/workflows/ecs-deploy.yml@main
     with:
       service: flask-dev-service
       cluster: flask-dev-cluster
-      environment: dev   # ✅ ADD THIS
+      environment: dev
     secrets:
       AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
       AWS_REGION: ${{ secrets.AWS_REGION }}
 
   deploy-stage:
     if: github.ref == 'refs/heads/stage'
-    uses: ./.github/workflows/ecs-deploy.yml
+    uses: kondeti-chaithanya/ecs-reusable-workflow/.github/workflows/ecs-deploy.yml@main
     with:
       service: flask-stage-service
       cluster: flask-stage-cluster
-      environment: stage   # ✅ ADD THIS
+      environment: stage
     secrets:
       AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
       AWS_REGION: ${{ secrets.AWS_REGION }}
 
   deploy-prod:
     if: github.ref == 'refs/heads/main'
-    uses: ./.github/workflows/ecs-deploy.yml
+    uses: kondeti-chaithanya/ecs-reusable-workflow/.github/workflows/ecs-deploy.yml@main
     with:
       service: flask-prod-service
       cluster: flask-prod-cluster
-      environment: prod   # ✅ ADD THIS
+      environment: prod
     secrets:
       AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
       AWS_REGION: ${{ secrets.AWS_REGION }}

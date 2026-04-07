@@ -19,7 +19,7 @@ jobs:
     uses: kondeti-chaithanya/ecs-reusable-workflow/.github/workflows/ecs-deploy.yml@main
     with:
       service: flask-cluster-task-service-qccqm59g
-      cluster: flask-dev-cluster
+      cluster: flask-cluster
       environment: dev
     secrets:
       AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
@@ -30,7 +30,7 @@ jobs:
     uses: kondeti-chaithanya/ecs-reusable-workflow/.github/workflows/ecs-deploy.yml@main
     with:
       service: flask-cluster-task-service-qccqm59g
-      cluster: flask-stage-cluster
+      cluster: flask-cluster
       environment: stage
     secrets:
       AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
@@ -41,7 +41,7 @@ jobs:
     uses: kondeti-chaithanya/ecs-reusable-workflow/.github/workflows/ecs-deploy.yml@main
     with:
       service: flask-cluster-task-service-qccqm59g
-      cluster: flask-prod-cluster
+      cluster: flask-cluster
       environment: prod
     secrets:
       AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}

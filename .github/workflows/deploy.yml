@@ -15,29 +15,29 @@ jobs:
     with:
       service: flask-dev-service
       cluster: flask-dev-cluster
+      environment: dev   # ✅ ADD THIS
     secrets:
       AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
       AWS_REGION: ${{ secrets.AWS_REGION }}
-    environment: dev   
 
   deploy-stage:
     if: github.ref == 'refs/heads/stage'
-    uses: ./.github/workflows/reusable.yml
+    uses: ./.github/workflows/ecs-deploy.yml
     with:
       service: flask-stage-service
       cluster: flask-stage-cluster
+      environment: stage   # ✅ ADD THIS
     secrets:
       AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
       AWS_REGION: ${{ secrets.AWS_REGION }}
-    environment: stage
 
   deploy-prod:
     if: github.ref == 'refs/heads/main'
-    uses: ./.github/workflows/reusable.yml
+    uses: ./.github/workflows/ecs-deploy.yml
     with:
       service: flask-prod-service
       cluster: flask-prod-cluster
+      environment: prod   # ✅ ADD THIS
     secrets:
       AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
       AWS_REGION: ${{ secrets.AWS_REGION }}
-    environment: prod

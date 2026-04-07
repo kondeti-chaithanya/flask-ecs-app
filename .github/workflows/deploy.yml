@@ -5,8 +5,18 @@ on:
     branches:
       - dev
       - stage
-      - prod
-      - main
+      - prod   
+
+  pull_request:
+    branches:
+      - stage   # when PR merged to stage
+    types: [closed]
+
+  workflow_dispatch:   # manual trigger for prod
+
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
   deploy:
@@ -20,5 +30,19 @@ jobs:
     with:
       service: flask-cluster-task-service-qccqm59g 
       cluster: flask-cluster
+      environment: stage
+    secrets:
+      AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
 
-    secrets: inherit
+  #  PROD DEPLOY (manual only)
+  deploy-prod:
+    if: github.event_name == 'workflow_dispatch'
+    uses: kondeti-chaithanya/ecs-reusable-workflow/.github/workflows/ecs-deploy.yml@main
+    with:
+      service: flask-cluster-task-service-qccqm59g
+      cluster: flask-cluster
+      environment: prod
+    secrets:
+      AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
